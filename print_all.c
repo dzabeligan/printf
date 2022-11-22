@@ -26,9 +26,18 @@ int print_all(const char *format, va_list args)
 	};
 	format_t_len = sizeof(f) / sizeof(f[0]);
 
-	while (j < format_t_len && *(format) != f[j].specifier)
+	while (j < format_t_len && *format != f[j].specifier)
 		j++;
 	if (j < format_t_len)
+	{
 		return (f[j].print(args));
+	}
+	else if (*format)
+	{
+		_putchar('%');
+		_putchar(*format);
+		return (2);
+	}
+
 	return (0);
 }
