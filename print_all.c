@@ -16,6 +16,7 @@ int print_all(const char *format, va_list args)
 		{'c', print_char},
 		{'i', print_int},
 		{'d', print_int},
+		{'u', print_unsigned},
 		{'s', print_string},
 		{'%', print_percent},
 	};
@@ -24,6 +25,14 @@ int print_all(const char *format, va_list args)
 	while (j < format_t_len && *(format) != f[j].specifier)
 		j++;
 	if (j < format_t_len)
+	{
 		return (f[j].print(args));
+	}
+	else
+	{
+		_putchar('%');
+		_putchar(*(format));
+	}
+
 	return (0);
 }
