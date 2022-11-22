@@ -16,6 +16,10 @@ int print_all(const char *format, va_list args)
 		{'c', print_char},
 		{'i', print_int},
 		{'d', print_int},
+		{'u', print_unsigned},
+		{'x', print_hex},
+		{'X', print_hex_cap},
+		{'p', print_address},
 		{'s', print_string},
 		{'%', print_percent},
 	};
