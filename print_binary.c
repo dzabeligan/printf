@@ -15,7 +15,7 @@ static void print_binary_helper(unsigned int n, int *len)
 	if (n > 0x1)
 		print_binary_helper(n >> 1, len);
 
-	(*len) += buffered_print(&hex[last_digit], 1);
+	*len += buffered_print(&hex[last_digit], 1);
 }
 
 /**

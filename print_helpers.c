@@ -37,6 +37,9 @@ int print_string(va_list arg)
 {
 	char *str = va_arg(arg, char *);
 
+	if (str == NULL)
+		return (buffered_print("(null)", 6));
+
 	return (buffered_print(str, strlen(str)));
 }
 

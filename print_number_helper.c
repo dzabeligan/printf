@@ -50,8 +50,7 @@ static void print_int_helper(int n, int *len)
 
 	if (n < 0)
 	{
-		buffered_print("-", 1);
-		(*len)++;
+		*len += buffered_print("-", 1);
 		if (n <= INT_MIN)
 			spill = 5;
 		n = -(n + spill);

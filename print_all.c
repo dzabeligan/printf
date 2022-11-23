@@ -12,6 +12,7 @@ int print_all(const char *format, va_list args)
 {
 	int format_t_len = 0;
 	int j = 0;
+	int len = 0;
 	format_t f[] = {
 		{'c', print_char},
 		{'i', print_int},
@@ -28,18 +29,17 @@ int print_all(const char *format, va_list args)
 	};
 	format_t_len = sizeof(f) / sizeof(f[0]);
 
-	while (j < format_t_len && *format != f[j].specifier)
+	while (format && j < format_t_len && *format != f[j].specifier)
 		j++;
 	if (j < format_t_len)
 	{
 		return (f[j].print(args));
 	}
-	else if (*format)
+	else if (format && *format)
 	{
-		buffered_print("%", 1);
-		buffered_print(format, 1);
-		return (2);
+		len += buffered_print("%", 1);
+		len += buffered_print(format, 1);
 	}
 
-	return (0);
+	return (len);
 }

@@ -57,10 +57,11 @@ int _printf(const char *format, ...)
 
 	while (format && *format)
 	{
-		if (*format == '%')
+		if (*format == '%' && *(format + 1))
 		{
 			len += print_all(++format, args);
 			format++;
+			continue;
 		}
 		len += buffered_print(format++, 1);
 	}

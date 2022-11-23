@@ -6,18 +6,17 @@
   * @len: length of bytes written
   *
   */
-static void print_hex_helper(long n, int *len)
+static void print_hex_helper(unsigned n, int *len)
 {
 	int last_digit = 0;
 	char hex[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a',
 		'b', 'c', 'd', 'e', 'f' };
 
 	last_digit = n & 0xF;
-	if (n >= 0xF)
+	if (n > 0xF)
 		print_hex_helper(n >> 4, len);
 
-	(*len)++;
-	buffered_print(&hex[last_digit], 1);
+	*len += buffered_print(&hex[last_digit], 1);
 }
 
 /**
@@ -29,7 +28,7 @@ static void print_hex_helper(long n, int *len)
 int print_hex(va_list arg)
 {
 	int len = 0;
-	long num = va_arg(arg, long);
+	unsigned num = va_arg(arg, unsigned);
 
 	print_hex_helper(num, &len);
 	return (len);
@@ -41,7 +40,7 @@ int print_hex(va_list arg)
   * @len: length of bytes written
   *
   */
-static void print_hex_helper_cap(long n, int *len)
+static void print_hex_helper_cap(unsigned n, int *len)
 {
 	int last_digit = 0;
 	char hex[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A',
@@ -51,8 +50,7 @@ static void print_hex_helper_cap(long n, int *len)
 	if (n > 0xF)
 		print_hex_helper_cap(n >> 4, len);
 
-	(*len)++;
-	buffered_print(&hex[last_digit], 1);
+	*len += buffered_print(&hex[last_digit], 1);
 }
 
 /**
@@ -64,25 +62,8 @@ static void print_hex_helper_cap(long n, int *len)
 int print_hex_cap(va_list arg)
 {
 	int len = 0;
-	long num = va_arg(arg, long);
+	unsigned num = va_arg(arg, unsigned);
 
 	print_hex_helper_cap(num, &len);
-	return (len);
-}
-
-/**
- * print_address - Print an address
- * @arg: pointer to arguments to be printed
- *
- * Return: length of bytes written
- */
-int print_address(va_list arg)
-{
-	int len = 0;
-	void *str = va_arg(arg, void *);
-
-	buffered_print("0x", 2);
-	print_hex_helper((long)str, &len);
-
 	return (len);
 }

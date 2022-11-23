@@ -15,7 +15,7 @@ static void print_octal_helper(unsigned int n, int *len)
 	if (n > 0x7)
 		print_octal_helper(n >> 3, len);
 
-	(*len) += buffered_print(&hex[last_digit], 1);
+	*len += buffered_print(&hex[last_digit], 1);
 }
 
 /**
