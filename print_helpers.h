@@ -25,5 +25,6 @@ int print_address(va_list arg);
 int print_hex(va_list arg);
 int print_hex_cap(va_list arg);
 int print_octal(va_list arg);
+int print_reverse(va_list arg);
 
 #endif
