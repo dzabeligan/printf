@@ -1,7 +1,7 @@
 #include "print_helpers.h"
 
 /**
-  * print_hex_helper - Prints hex number using `_putchar`
+  * print_hex_helper - Prints hex number
   * @n: int number to print
   * @len: length of bytes written
   *
@@ -17,7 +17,7 @@ static void print_hex_helper(long n, int *len)
 		print_hex_helper(n >> 4, len);
 
 	(*len)++;
-	_putchar(hex[last_digit]);
+	buffered_print(&hex[last_digit], 1);
 }
 
 /**
@@ -36,7 +36,7 @@ int print_hex(va_list arg)
 }
 
 /**
-  * print_hex_helper_cap - Prints hex number (cap) using `_putchar`
+  * print_hex_helper_cap - Prints hex number (cap)
   * @n: int number to print
   * @len: length of bytes written
   *
@@ -52,7 +52,7 @@ static void print_hex_helper_cap(long n, int *len)
 		print_hex_helper_cap(n >> 4, len);
 
 	(*len)++;
-	_putchar(hex[last_digit]);
+	buffered_print(&hex[last_digit], 1);
 }
 
 /**
@@ -81,8 +81,7 @@ int print_address(va_list arg)
 	int len = 0;
 	void *str = va_arg(arg, void *);
 
-	_putchar('0');
-	_putchar('x');
+	buffered_print("0x", 2);
 	print_hex_helper((long)str, &len);
 
 	return (len);

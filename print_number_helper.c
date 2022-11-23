@@ -3,7 +3,7 @@
 #include <limits.h>
 
 /**
-  * print_unsigned_helper - Prints unsigned int using `_putchar`
+  * print_unsigned_helper - Prints unsigned int
   * @n: int number to print
   * @len: length of bytes written
   *
@@ -11,13 +11,14 @@
 static void print_unsigned_helper(unsigned int n, int *len)
 {
 	int last_digit = 0;
+	char c = 0;
 
 	last_digit = n % 10;
 	if (n >= 10)
 		print_unsigned_helper(n / 10, len);
 
-	(*len)++;
-	_putchar(last_digit + '0');
+	c = last_digit + '0';
+	*len += buffered_print(&c, 1);
 }
 
 /**
@@ -36,7 +37,7 @@ int print_unsigned(va_list arg)
 }
 
 /**
-  * print_int_helper - Prints number using `_putchar`
+  * print_int_helper - Prints number
   * @n: int number to print
   * @len: length of bytes written
   *
@@ -45,10 +46,11 @@ static void print_int_helper(int n, int *len)
 {
 	int last_digit = 0;
 	int spill = 0;
+	char c = 0;
 
 	if (n < 0)
 	{
-		_putchar('-');
+		buffered_print("-", 1);
 		(*len)++;
 		if (n <= INT_MIN)
 			spill = 5;
@@ -59,8 +61,8 @@ static void print_int_helper(int n, int *len)
 	if (n >= 10)
 		print_int_helper(n / 10, len);
 
-	(*len)++;
-	_putchar((last_digit + spill) + '0');
+	c = (last_digit + spill) + '0';
+	*len += buffered_print(&c, 1);
 }
 
 /**

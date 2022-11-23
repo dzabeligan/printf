@@ -34,8 +34,8 @@ int print_all(const char *format, va_list args)
 	}
 	else if (*format)
 	{
-		_putchar('%');
-		_putchar(*format);
+		buffered_print("%", 1);
+		buffered_print(format, 1);
 		return (2);
 	}
 

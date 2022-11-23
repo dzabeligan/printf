@@ -1,7 +1,7 @@
 #include "print_helpers.h"
 
 /**
-  * print_octal_helper - Prints octal using `_putchar`
+  * print_octal_helper - Prints octal
   * @n: int number to print
   * @len: length of bytes written
   *
@@ -15,8 +15,7 @@ static void print_octal_helper(unsigned int n, int *len)
 	if (n > 0x7)
 		print_octal_helper(n >> 3, len);
 
-	(*len)++;
-	_putchar(hex[last_digit]);
+	(*len) += buffered_print(&hex[last_digit], 1);
 }
 
 /**
