@@ -1,48 +1,44 @@
-#include "print_helpers.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
+
+#include "print_helpers.h"
 
 /**
  * print_rot_13 - Rotate character in string
- * @str: string
+ * @arg: pointer to arguments to be printed
  *
  * Return: length of bytes written
  */
 int print_rot_13(va_list arg)
 {
-	char *str_copy = NULL;
 	int len = 0;
-	const char arr[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	const char replacement[] =
-	"nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM";
 	char *str = va_arg(arg, char *);
+	char c;
 
 	if (str == NULL)
 		return (buffered_print("(null)", 6));
 
-	str_copy = (char *)malloc(strlen(str) + 1);
-	if (str_copy == NULL)
-		return 0;
-	while (str[len])
+	while (str && *str)
 	{
-		int i = 0;
+		c = *str;
 
-		for (i = 0; arr[i] != '\0'; i++)
+		if ((c >= 'a' && c <= 'm') || (c >= 'A' && c <= 'M'))
 		{
-			if (str[len] == arr[i])
-			{
-				str_copy[len] = replacement[i];
-				break;
-			}
-			else
-			{
-				str_copy[len] = str[len];
-			}
+			c += 13;
+			len += buffered_print(&c, 1);
 		}
-		len++;
+		else if ((c >= 'n' && c <= 'z') || (c >= 'N' && c <= 'Z'))
+		{
+			c -= 13;
+			len += buffered_print(&c, 1);
+		}
+		else
+		{
+			len += buffered_print(&c, 1);
+		}
+		str++;
 	}
-	str_copy[len] = '\0';
-	len = buffered_print(str_copy, len);
-	free(str_copy);
+
 	return (len);
 }

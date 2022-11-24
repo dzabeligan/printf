@@ -2,19 +2,8 @@
 #define PRINT_HELPERS_H
 
 #include "main.h"
-#include <stdarg.h>
 
-/**
- * struct format_t - Format
- * @specifier: character
- * @print: print function for specifier
- *
- */
-typedef struct format_t
-{
-	char specifier;
-	int (*print)(va_list arg);
-} format_t;
+int buffered_print(const char *buffer, int sLen);
 
 int print_char(va_list arg);
 int print_percent(va_list arg);

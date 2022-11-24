@@ -1,5 +1,42 @@
-#include "print_helpers.h"
 #include <string.h>
+#include <unistd.h>
+
+#include "print_helpers.h"
+
+/**
+ * buffered_print - puts constant format chars into buffer
+ *
+ * @str: string
+ * @sLen: string length
+ *
+ * Return: number of printed
+ */
+int buffered_print(const char *str, int sLen)
+{
+	static int len;
+	static char buffer[1024] = {'\0'};
+	int writen = 0;
+	int i = 0;
+
+	if (sLen == -1)
+	{
+		writen = (write(1, buffer, len));
+		len = 0;
+		memset(buffer, 0, sizeof(buffer));
+	}
+	while (str && (str + i) && sLen--)
+	{
+		buffer[len++] = *(str + i++);
+		if (len == 1024)
+		{
+			writen = (write(1, buffer, len));
+			len = 0;
+			memset(buffer, 0, sizeof(buffer));
+		}
+	}
+
+	return (writen);
+}
 
 /**
  * print_char - print char
@@ -41,35 +78,4 @@ int print_string(va_list arg)
 		return (buffered_print("(null)", 6));
 
 	return (buffered_print(str, strlen(str)));
-}
-
-/**
- * print_reverse_helper - Helper function
- * @s: Pointer to char type (string)
- *
- *  Return: length of bytes written
- */
-static int print_reverse_helper(char *s)
-{
-	int len = 0;
-
-	if (s && *s != '\0')
-	{
-		len += (print_reverse_helper(s + 1) + buffered_print(s, 1));
-	}
-
-	return (len);
-}
-
-/**
- * print_reverse - Prints a string in reverse
- * @arg: pointer to arguments to be printed
- *
- * Return: length of bytes written
- */
-int print_reverse(va_list arg)
-{
-	char *str = va_arg(arg, char *);
-
-	return (print_reverse_helper(str));
 }

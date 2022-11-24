@@ -1,5 +1,6 @@
-#include "print_helpers.h"
 #include <stdlib.h>
+
+#include "print_helpers.h"
 
 /**
   * print_address_helper - Prints hex number

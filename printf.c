@@ -1,43 +1,52 @@
-#include "main.h"
 #include <stdlib.h>
-#include <unistd.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <string.h>
+
+#include "print_helpers.h"
+
+#include "main.h"
 
 /**
- * buffered_print - puts constant format chars into buffer
+ * print_all - Print all formats
+ * @format: format string
+ * @args: pointer to arguments to be printed
  *
- * @str: string
- * @sLen: string length
- *
- * Return: number of printed
+ * Return: length of bytes written
  */
-int buffered_print(const char *str, int sLen)
+int print_all(const char *format, va_list args)
 {
-	static int len;
-	static char buffer[1024] = {'\0'};
-	int writen = 0;
-	int i = 0;
+	int format_t_len = 0;
+	int j = 0;
+	int len = 0;
+	format_t f[] = {
+		{'c', print_char},
+		{'i', print_int},
+		{'d', print_int},
+		{'u', print_unsigned},
+		{'o', print_octal},
+		{'x', print_hex},
+		{'X', print_hex_cap},
+		{'p', print_address},
+		{'s', print_string},
+		{'S', print_custom_S},
+		{'%', print_percent},
+		{'r', print_reverse},
+		{'R', print_rot_13},
+		{'b', print_binary},
+	};
+	format_t_len = sizeof(f) / sizeof(f[0]);
 
-	if (sLen == -1)
+	while (format && j < format_t_len && *format != f[j].specifier)
+		j++;
+	if (j < format_t_len)
 	{
-		writen = (write(1, buffer, len));
-		len = 0;
-		memset(buffer, 0, sizeof(buffer));
+		return (f[j].print(args));
 	}
-	while (str && (str + i) && sLen--)
+	else if (format && *format)
 	{
-		buffer[len++] = *(str + i++);
-		if (len == 1024)
-		{
-			writen = (write(1, buffer, len));
-			len = 0;
-			memset(buffer, 0, sizeof(buffer));
-		}
+		len += buffered_print("%", 1);
+		len += buffered_print(format, 1);
 	}
 
-	return (writen);
+	return (len);
 }
 
 /**

@@ -3,8 +3,18 @@
 
 #include <stdarg.h>
 
+/**
+ * struct format_t - Format
+ * @specifier: character
+ * @print: print function for specifier
+ *
+ */
+typedef struct format_t
+{
+	char specifier;
+	int (*print)(va_list arg);
+} format_t;
+
 int _printf(const char *format, ...);
-int print_all(const char *format, va_list args);
-int buffered_print(const char *buffer, int sLen);
 
 #endif
