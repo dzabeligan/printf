@@ -23,6 +23,7 @@ int print_all(const char *format, va_list args)
 		{'X', print_hex_cap},
 		{'p', print_address},
 		{'s', print_string},
+		{'S', print_custom_S},
 		{'%', print_percent},
 		{'r', print_reverse},
 		{'b', print_binary},
