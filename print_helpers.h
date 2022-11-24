@@ -28,5 +28,6 @@ int print_octal(va_list arg);
 int print_reverse(va_list arg);
 int print_binary(va_list arg);
 int print_custom_S(va_list arg);
+int print_rot_13(va_list arg);
 
 #endif

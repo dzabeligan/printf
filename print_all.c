@@ -26,6 +26,7 @@ int print_all(const char *format, va_list args)
 		{'S', print_custom_S},
 		{'%', print_percent},
 		{'r', print_reverse},
+		{'R', print_rot_13},
 		{'b', print_binary},
 	};
 	format_t_len = sizeof(f) / sizeof(f[0]);
