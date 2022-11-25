@@ -52,3 +52,5 @@ Mkfile.old
 dkms.conf
 *_tests
 *.log
+
+main.c*
