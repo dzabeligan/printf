@@ -105,24 +105,17 @@ static int get_length(specifier_t *spec, const char *format)
 {
 	int len = 0;
 
-	spec->length = 0;
 	while (*format == 'h')
 	{
 		len++;
 		format++;
-		if (spec->length > -2)
-			spec->length--;
-		else
-			spec->length = 10;
+		spec->flags |= FLAG_SHORT;
 	}
 	while (*format == 'l')
 	{
 		len++;
 		format++;
-		if (spec->length >= 0)
-			spec->length = 1;
-		else
-			spec->length = 10;
+		spec->flags |= FLAG_LENGTH;
 	}
 	return (len);
 }
