@@ -40,39 +40,45 @@ int buffered_print(const char *str, int sLen)
 
 /**
  * print_char - print char
+ * @spec: specifier object
  * @arg: pointer to arguments to be printed
  *
  *  Return: length of bytes written
  */
-int print_char(va_list arg)
+int print_char(specifier_t *spec, va_list arg)
 {
 	char c = va_arg(arg, int);
+	(void) spec;
 
 	return (buffered_print(&c, 1));
 }
 
 /**
  * print_percent - print percent
+ * @spec: specifier object
  * @arg: pointer to arguments to be printed
  *
  *  Return: length of bytes written
  */
-int print_percent(va_list arg)
+int print_percent(specifier_t *spec, va_list arg)
 {
-	(void)arg;
+	(void) arg;
+	(void) spec;
 
 	return (buffered_print("%", 1));
 }
 
 /**
  * print_string - Prints a string.
+ * @spec: specifier object
  * @arg: pointer to arguments to be printed
  *
  * Return: length of bytes written
  */
-int print_string(va_list arg)
+int print_string(specifier_t *spec, va_list arg)
 {
 	char *str = va_arg(arg, char *);
+	(void) spec;
 
 	if (str == NULL)
 		return (buffered_print("(null)", 6));

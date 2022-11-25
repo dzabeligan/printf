@@ -20,14 +20,16 @@ static void print_binary_helper(unsigned int n, int *len)
 
 /**
  * print_binary - print binary
+ * @spec: specifier object
  * @arg: pointer to arguments to be printed
  *
  *  Return: length of bytes written
  */
-int print_binary(va_list arg)
+int print_binary(specifier_t *spec, va_list arg)
 {
 	int len = 0;
 	unsigned int num = va_arg(arg, unsigned int);
+	(void) spec;
 
 	print_binary_helper(num, &len);
 	return (len);

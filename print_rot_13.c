@@ -6,15 +6,17 @@
 
 /**
  * print_rot_13 - Rotate character in string
+ * @spec: specifier object
  * @arg: pointer to arguments to be printed
  *
  * Return: length of bytes written
  */
-int print_rot_13(va_list arg)
+int print_rot_13(specifier_t *spec, va_list arg)
 {
 	int len = 0;
 	char *str = va_arg(arg, char *);
 	char c;
+	(void) spec;
 
 	if (str == NULL)
 		return (buffered_print("(null)", 6));

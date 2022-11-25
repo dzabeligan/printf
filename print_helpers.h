@@ -5,18 +5,20 @@
 
 int buffered_print(const char *buffer, int sLen);
 
-int print_char(va_list arg);
-int print_percent(va_list arg);
-int print_int(va_list arg);
-int print_string(va_list arg);
-int print_unsigned(va_list arg);
-int print_address(va_list arg);
-int print_hex(va_list arg);
-int print_hex_cap(va_list arg);
-int print_octal(va_list arg);
-int print_reverse(va_list arg);
-int print_binary(va_list arg);
-int print_custom_S(va_list arg);
-int print_rot_13(va_list arg);
+int get_specifier(specifier_t *spec, const char *format, va_list args);
+
+int print_char(specifier_t *spec, va_list arg);
+int print_percent(specifier_t *spec, va_list arg);
+int print_int(specifier_t *spec, va_list arg);
+int print_string(specifier_t *spec, va_list arg);
+int print_unsigned(specifier_t *spec, va_list arg);
+int print_address(specifier_t *spec, va_list arg);
+int print_hex(specifier_t *spec, va_list arg);
+int print_hex_cap(specifier_t *spec, va_list arg);
+int print_octal(specifier_t *spec, va_list arg);
+int print_reverse(specifier_t *spec, va_list arg);
+int print_binary(specifier_t *spec, va_list arg);
+int print_custom_S(specifier_t *spec, va_list arg);
+int print_rot_13(specifier_t *spec, va_list arg);
 
 #endif

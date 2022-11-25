@@ -23,15 +23,18 @@ static void print_hex_helper(unsigned int n, int *len)
 
 /**
  * print_hex - print hex
+ * @spec: specifier object
  * @arg: pointer to arguments to be printed
  *
  *  Return: length of bytes written
  */
-int print_hex(va_list arg)
+int print_hex(specifier_t *spec, va_list arg)
 {
 	int len = 0;
 	unsigned int num = va_arg(arg, unsigned int);
 
+	if (spec->flags & FLAG_HEX && num)
+		len += buffered_print("0x", 2);
 	print_hex_helper(num, &len);
 	return (len);
 }
@@ -57,15 +60,18 @@ static void print_hex_helper_cap(unsigned int n, int *len)
 
 /**
  * print_hex_cap - print hex (capital letters)
+ * @spec: specifier object
  * @arg: pointer to arguments to be printed
  *
  *  Return: length of bytes written
  */
-int print_hex_cap(va_list arg)
+int print_hex_cap(specifier_t *spec, va_list arg)
 {
 	int len = 0;
 	unsigned int num = va_arg(arg, unsigned int);
 
+	if (spec->flags & FLAG_HEX && num)
+		len += buffered_print("0X", 2);
 	print_hex_helper_cap(num, &len);
 	return (len);
 }

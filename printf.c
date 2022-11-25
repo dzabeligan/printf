@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "print_helpers.h"
 
@@ -6,12 +7,12 @@
 
 /**
  * print_all - Print all formats
- * @format: format string
+ * @spec: specifier object
  * @args: pointer to arguments to be printed
  *
  * Return: length of bytes written
  */
-int print_all(const char *format, va_list args)
+static int print_all(specifier_t *spec, va_list args)
 {
 	int format_t_len = 0;
 	int j = 0;
@@ -34,16 +35,16 @@ int print_all(const char *format, va_list args)
 	};
 	format_t_len = sizeof(f) / sizeof(f[0]);
 
-	while (format && j < format_t_len && *format != f[j].specifier)
+	while (spec && j < format_t_len && spec->specifier != f[j].specifier)
 		j++;
 	if (j < format_t_len)
 	{
-		return (f[j].print(args));
+		return (f[j].print(spec, args));
 	}
-	else if (format && *format)
+	else if (spec && spec->specifier)
 	{
 		len += buffered_print("%", 1);
-		len += buffered_print(format, 1);
+		len += buffered_print(&spec->specifier, 1);
 	}
 
 	return (len);
@@ -68,7 +69,13 @@ int _printf(const char *format, ...)
 	{
 		if (*format == '%' && *(format + 1))
 		{
-			len += print_all(++format, args);
+			int skip = 0;
+			specifier_t spec;
+
+			memset(&spec, 0, sizeof(spec));
+			skip = get_specifier(&spec, format + 1, args);
+			format += skip + 1;
+			len += print_all(&spec, args);
 			format++;
 			continue;
 		}

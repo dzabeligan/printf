@@ -23,14 +23,16 @@ static void print_address_helper(unsigned long n, int *len)
 
 /**
  * print_address - Print an address
+ * @spec: specifier object
  * @arg: pointer to arguments to be printed
  *
  * Return: length of bytes written
  */
-int print_address(va_list arg)
+int print_address(specifier_t *spec, va_list arg)
 {
 	int len = 0;
 	void *str = va_arg(arg, void *);
+	(void) spec;
 
 	if (str == NULL)
 		return (buffered_print("(nil)", 5));

@@ -20,15 +20,18 @@ static void print_octal_helper(unsigned int n, int *len)
 
 /**
  * print_octal - print octal
+ * @spec: specifier object
  * @arg: pointer to arguments to be printed
  *
  *  Return: length of bytes written
  */
-int print_octal(va_list arg)
+int print_octal(specifier_t *spec, va_list arg)
 {
 	int len = 0;
 	unsigned int num = va_arg(arg, unsigned int);
 
+	if (spec->flags & FLAG_HEX && num)
+		len += buffered_print("0", 1);
 	print_octal_helper(num, &len);
 	return (len);
 }

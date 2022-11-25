@@ -1,6 +1,6 @@
-#include "print_helpers.h"
-
 #include <limits.h>
+
+#include "print_helpers.h"
 
 /**
   * print_unsigned_helper - Prints unsigned int
@@ -23,14 +23,16 @@ static void print_unsigned_helper(unsigned int n, int *len)
 
 /**
  * print_unsigned - print unsigned int
+ * @spec: specifier object
  * @arg: pointer to arguments to be printed
  *
  *  Return: length of bytes written
  */
-int print_unsigned(va_list arg)
+int print_unsigned(specifier_t *spec, va_list arg)
 {
 	int len = 0;
 	unsigned int num = va_arg(arg, unsigned int);
+	(void) spec;
 
 	print_unsigned_helper(num, &len);
 	return (len);
@@ -66,15 +68,20 @@ static void print_int_helper(int n, int *len)
 
 /**
  * print_int - print int
+ * @spec: specifier object
  * @arg: pointer to arguments to be printed
  *
  *  Return: length of bytes written
  */
-int print_int(va_list arg)
+int print_int(specifier_t *spec, va_list arg)
 {
 	int len = 0;
 	int num = va_arg(arg, int);
 
+	if (spec->flags & FLAG_SIGN && num >= 0)
+		len += buffered_print("+", 1);
+	else if (spec->flags & FLAG_SPACE && num >= 0)
+		len += buffered_print(" ", 1);
 	print_int_helper(num, &len);
 	return (len);
 }
