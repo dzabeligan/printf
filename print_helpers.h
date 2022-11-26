@@ -4,6 +4,7 @@
 #include "main.h"
 
 int buffered_print(const char *buffer, int sLen);
+int print_space(unsigned int len);
 
 int get_specifier(specifier_t *spec, const char *format, va_list args);
 

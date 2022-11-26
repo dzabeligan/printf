@@ -39,6 +39,21 @@ int buffered_print(const char *str, int sLen)
 }
 
 /**
+ * print_space - print spaces
+ * @len: number of spaces
+ *
+ *  Return: length of bytes written
+ */
+int print_space(unsigned int len)
+{
+	int plen = 0;
+
+	while (len--)
+		plen += buffered_print(" ", 1);
+	return (plen);
+}
+
+/**
  * print_char - print char
  * @spec: specifier object
  * @arg: pointer to arguments to be printed
