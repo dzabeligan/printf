@@ -39,6 +39,22 @@ int buffered_print(const char *str, int sLen)
 }
 
 /**
+ * print_nchar - print spaces
+ * @c: character
+ * @len: number of spaces
+ *
+ *  Return: length of bytes written
+ */
+int print_nchar(char c, unsigned int len)
+{
+	int plen = 0;
+
+	while (len--)
+		plen += buffered_print(&c, 1);
+	return (plen);
+}
+
+/**
  * print_space - print spaces
  * @len: number of spaces
  *
@@ -46,11 +62,7 @@ int buffered_print(const char *str, int sLen)
  */
 int print_space(unsigned int len)
 {
-	int plen = 0;
-
-	while (len--)
-		plen += buffered_print(" ", 1);
-	return (plen);
+	return (print_nchar(' ', len));
 }
 
 /**

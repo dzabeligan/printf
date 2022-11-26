@@ -86,6 +86,12 @@ int print_hex_cap(specifier_t *spec, va_list arg)
 
 	if (spec->flags & FLAG_HEX && num)
 		len += buffered_print("0X", 2);
+
+	if (width < spec->precision)
+		len += print_nchar('0', spec->precision - width);
+	if (spec->flags & FLAG_PRECISION && spec->precision == 0 && num == 0)
+		return (len);
+
 	if (spec->flags & FLAG_LENGTH)
 		print_long_hex_helper_cap(num, &len);
 	else if (spec->flags & FLAG_SHORT)

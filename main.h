@@ -12,6 +12,7 @@
  * @FLAG_ZERO: zero
  * @FLAG_LENGTH: length
  * @FLAG_SHORT: short
+ * @FLAG_PRECISION: precision
  *
  */
 typedef enum flag_t
@@ -22,7 +23,8 @@ typedef enum flag_t
 	FLAG_LEFT = 1 << 3,
 	FLAG_ZERO = 1 << 4,
 	FLAG_LENGTH = 1 << 5,
-	FLAG_SHORT = 1 << 6
+	FLAG_SHORT = 1 << 6,
+	FLAG_PRECISION = 1 << 7
 } flag_t;
 
 /**
@@ -30,7 +32,6 @@ typedef enum flag_t
  *
  * @width: width of field to print
  * @precision: precision of field to print
- * @precisionflag: tells whether precision is set
  * @flags: flags set
  * @specifier: the data type to print, c, s, d, x, etc.
  */
@@ -38,7 +39,6 @@ typedef struct specifier_t
 {
 	unsigned int width;
 	unsigned int precision;
-	char precisionflag;
 	char specifier;
 	unsigned int flags;
 } specifier_t;

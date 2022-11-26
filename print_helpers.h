@@ -4,6 +4,7 @@
 #include "main.h"
 
 int buffered_print(const char *buffer, int sLen);
+int print_nchar(char c, unsigned int len);
 int print_space(unsigned int len);
 unsigned int num_len(
 	unsigned long int n, unsigned long int (*updater)(unsigned long int num));

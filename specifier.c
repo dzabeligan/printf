@@ -73,6 +73,7 @@ static int get_precision(specifier_t *spec, const char *format, va_list args)
 {
 	int len = 0;
 
+	spec->flags |= FLAG_PRECISION;
 	if (*format == '*')
 	{
 		spec->precision = va_arg(args, int);
@@ -132,14 +133,10 @@ int get_specifier(specifier_t *spec, const char *format, va_list args)
 	len += get_flag(spec, format + len);
 	len += get_width(spec, format + len, args);
 
-	spec->precision = 1;
-	spec->precisionflag = 0;
 	if (*format == '.')
 	{
-		spec->precisionflag = 1;
-		spec->precision = 0;
 		len++;
-		get_precision(spec, format + len, args);
+		len += get_precision(spec, format + len, args);
 	}
 	len += get_length(spec, format + len);
 	spec->specifier = *(format + len);
