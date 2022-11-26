@@ -54,49 +54,20 @@ int print_space(unsigned int len)
 }
 
 /**
- * print_char - print char
- * @spec: specifier object
- * @arg: pointer to arguments to be printed
+ * num_len - length of number
+ * @n: number 
  *
- *  Return: length of bytes written
+ * Return: length of number 
  */
-int print_char(specifier_t *spec, va_list arg)
+unsigned int num_len(
+    unsigned long int n, unsigned long int (*updater)(unsigned long int num))
 {
-	char c = va_arg(arg, int);
-	(void) spec;
+	unsigned int num_width = 1;
 
-	return (buffered_print(&c, 1));
-}
-
-/**
- * print_percent - print percent
- * @spec: specifier object
- * @arg: pointer to arguments to be printed
- *
- *  Return: length of bytes written
- */
-int print_percent(specifier_t *spec, va_list arg)
-{
-	(void) arg;
-	(void) spec;
-
-	return (buffered_print("%", 1));
-}
-
-/**
- * print_string - Prints a string.
- * @spec: specifier object
- * @arg: pointer to arguments to be printed
- *
- * Return: length of bytes written
- */
-int print_string(specifier_t *spec, va_list arg)
-{
-	char *str = va_arg(arg, char *);
-	(void) spec;
-
-	if (str == NULL)
-		return (buffered_print("(null)", 6));
-
-	return (buffered_print(str, strlen(str)));
+	while (updater(n) > 0)  
+	{
+		n = updater(n);
+		num_width++;
+	}
+	return (num_width);
 }
