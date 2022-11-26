@@ -6,7 +6,7 @@
 int buffered_print(const char *buffer, int sLen);
 int print_space(unsigned int len);
 unsigned int num_len(
-    unsigned long int n, unsigned long int (*updater)(unsigned long int num));
+	unsigned long int n, unsigned long int (*updater)(unsigned long int num));
 
 int get_specifier(specifier_t *spec, const char *format, va_list args);
 

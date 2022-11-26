@@ -55,16 +55,17 @@ int print_space(unsigned int len)
 
 /**
  * num_len - length of number
- * @n: number 
+ * @n: number
+ * @updater: callback function
  *
- * Return: length of number 
+ * Return: length of number
  */
 unsigned int num_len(
-    unsigned long int n, unsigned long int (*updater)(unsigned long int num))
+	unsigned long int n, unsigned long int (*updater)(unsigned long int num))
 {
 	unsigned int num_width = 1;
 
-	while (updater(n) > 0)  
+	while (updater(n) > 0)
 	{
 		n = updater(n);
 		num_width++;

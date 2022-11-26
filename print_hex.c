@@ -58,6 +58,17 @@ static void print_long_hex_helper(unsigned long int n, int *len)
 }
 
 /**
+ * updater - update number in num len function
+ * @num: number
+ *
+ * Return: updated number
+ */
+static unsigned long int updater(unsigned long int num)
+{
+	return (num >> 4);
+}
+
+/**
  * print_hex - print hex
  * @spec: specifier object
  * @arg: pointer to arguments to be printed
@@ -68,6 +79,10 @@ int print_hex(specifier_t *spec, va_list arg)
 {
 	int len = 0;
 	unsigned long int num = va_arg(arg, unsigned long int);
+	unsigned int width = num_len(num, updater);
+
+	if (width < spec->width)
+		print_space(spec->width - width);
 
 	if (spec->flags & FLAG_HEX && num)
 		len += buffered_print("0x", 2);

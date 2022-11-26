@@ -60,6 +60,17 @@ static void print_long_unsigned_helper(unsigned long int n, int *len)
 }
 
 /**
+ * updater - update number in num len function
+ * @num: number
+ *
+ * Return: updated number
+ */
+static unsigned long int updater(unsigned long int num)
+{
+	return (num / 10);
+}
+
+/**
  * print_unsigned - print unsigned int
  * @spec: specifier object
  * @arg: pointer to arguments to be printed
@@ -69,13 +80,17 @@ static void print_long_unsigned_helper(unsigned long int n, int *len)
 int print_unsigned(specifier_t *spec, va_list arg)
 {
 	int len = 0;
-	unsigned long int numl = va_arg(arg, unsigned long int);
+	unsigned long int num = va_arg(arg, unsigned long int);
+	unsigned int width = num_len(num, updater);
+
+	if (width < spec->width)
+		print_space(spec->width - width);
 
 	if (spec->flags & FLAG_LENGTH)
-		print_long_unsigned_helper(numl, &len);
+		print_long_unsigned_helper(num, &len);
 	else if (spec->flags & FLAG_SHORT)
-		print_short_unsigned_helper(numl, &len);
+		print_short_unsigned_helper(num, &len);
 	else
-		print_unsigned_helper(numl, &len);
+		print_unsigned_helper(num, &len);
 	return (len);
 }

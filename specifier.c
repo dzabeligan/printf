@@ -43,10 +43,8 @@ static int get_width(specifier_t *spec, const char *format, va_list args)
 	int len = 0;
 
 	spec->width = 0;
-	spec->widthflag = 0;
 	if (*format == '*')
 	{
-		spec->widthflag = 1;
 		spec->width = va_arg(args, int);
 		len++;
 	}
@@ -54,7 +52,6 @@ static int get_width(specifier_t *spec, const char *format, va_list args)
 	{
 		while (*format >= '0' && *format <= '9')
 		{
-			spec->widthflag = 1;
 			spec->width *= 10;
 			spec->width += *format - '0';
 			len++;

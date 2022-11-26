@@ -30,7 +30,6 @@ typedef enum flag_t
  *
  * @width: width of field to print
  * @precision: precision of field to print
- * @widthflag: tells whether width is set
  * @precisionflag: tells whether precision is set
  * @flags: flags set
  * @specifier: the data type to print, c, s, d, x, etc.
@@ -39,7 +38,6 @@ typedef struct specifier_t
 {
 	unsigned int width;
 	unsigned int precision;
-	char widthflag;
 	char precisionflag;
 	char specifier;
 	unsigned int flags;

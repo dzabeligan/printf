@@ -10,7 +10,8 @@
 int print_char(specifier_t *spec, va_list arg)
 {
 	char c = va_arg(arg, int);
-	(void) spec;
 
+	if (spec->width)
+		print_space(spec->width - 1);
 	return (buffered_print(&c, 1));
 }
