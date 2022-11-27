@@ -75,10 +75,14 @@ int _printf(const char *format, ...)
 			memset(&spec, 0, sizeof(spec));
 			skip = get_specifier(&spec, format + 1, args);
 			format += skip + 1;
+			if (spec.specifier == '\0')
+				break;
 			len += print_all(&spec, args);
 			format++;
 			continue;
 		}
+		if (*format == '%' && *(format + 1) == '\0')
+			break;
 		len += buffered_print(format++, 1);
 	}
 	len += buffered_print(NULL, -1);
