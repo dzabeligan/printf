@@ -22,6 +22,17 @@ static void print_address_helper(unsigned long n, int *len)
 }
 
 /**
+ * updater - update number in num len function
+ * @num: number
+ *
+ * Return: updated number
+ */
+static unsigned long int updater(unsigned long int num)
+{
+	return (num >> 4);
+}
+
+/**
  * print_address - Print an address
  * @spec: specifier object
  * @arg: pointer to arguments to be printed
@@ -32,12 +43,17 @@ int print_address(specifier_t *spec, va_list arg)
 {
 	int len = 0;
 	void *str = va_arg(arg, void *);
+	unsigned int width = num_len((unsigned long)str, updater) + 2;
 	(void) spec;
 
 	if (str == NULL)
 		return (buffered_print("(nil)", 5));
+	if (spec->flags ^ FLAG_LEFT && width < spec->width)
+		len += print_space(spec->width - (unsigned int)width);
 	buffered_print("0x", 2);
 	print_address_helper((unsigned long)str, &len);
+	if (spec->flags & FLAG_LEFT && width < spec->width)
+		len += print_space(spec->width - (unsigned int)width);
 
 	return (len);
 }
