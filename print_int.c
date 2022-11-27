@@ -132,6 +132,13 @@ int print_int(specifier_t *spec, va_list arg)
 	long int numl = 0;
 
 	get_variables(spec, arg, &num, &nums, &numl, &num_width);
+	if (spec->flags & FLAG_LEFT)
+	{
+		spec->flags = 0;
+		len += handle_print(spec, num, nums, numl);
+		len += handle_width(spec, num, nums, numl, num_width);
+		return (len);
+	}
 	len += handle_width(spec, num, nums, numl, num_width);
 	if (spec->flags ^ FLAG_ZERO)
 		len += handle_sign(spec, num, nums, numl);

@@ -81,7 +81,7 @@ int print_hex_cap(specifier_t *spec, va_list arg)
 	unsigned long int num = va_arg(arg, unsigned long int);
 	unsigned int width = num_len(num, updater);
 
-	if (width < spec->width)
+	if (spec->flags ^ FLAG_LEFT && width < spec->width)
 		len += print_nchar(spec->flags & FLAG_ZERO ? '0' : ' ',
 			spec->width - width);
 
@@ -99,5 +99,7 @@ int print_hex_cap(specifier_t *spec, va_list arg)
 		print_short_hex_helper_cap(num, &len);
 	else
 		print_hex_helper_cap(num, &len);
+	if (width < spec->width && spec->flags & FLAG_LEFT)
+		len += print_space(spec->width - width);
 	return (len);
 }
