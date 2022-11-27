@@ -26,9 +26,13 @@
 int handle_width(specifier_t *spec, int num, short int nums,
 	long int numl, unsigned int width)
 {
+	int len = 0;
+
+	if (spec->flags & FLAG_ZERO)
+		len += handle_sign(spec, num, nums, numl);
 	if (spec->width == 0 || width >= spec->width)
 		return (0);
-	return (print_space(
+	return (len + print_nchar(spec->flags & FLAG_ZERO ? '0' : ' ',
 		(num < 0 && nums < 0 && numl < 0) || spec->flags & FLAG_SIGN
 			? spec->width - width - 1 : spec->width - width));
 }
@@ -65,7 +69,7 @@ int handle_sign(
 		len += buffered_print("+", 1);
 	else if (spec->flags & FLAG_SPACE && (num >= 0 || nums >= 0 || numl >= 0))
 		len += buffered_print(" ", 1);
-	else if (spec->precision && (num < 0 && nums < 0 && numl < 0))
+	else if ((spec->precision || spec->flags & FLAG_ZERO) && (num < 0 && nums < 0 && numl < 0))
 		len += buffered_print("-", 1);
 
 	return (len);

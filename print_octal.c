@@ -79,7 +79,8 @@ int print_octal(specifier_t *spec, va_list arg)
 	unsigned int width = num_len(num, updater);
 
 	if (width < spec->width)
-		len += print_space(spec->width - width);
+		len += print_nchar(spec->flags & FLAG_ZERO ? '0' : ' ',
+			spec->width - width);
 
 	if (spec->flags & FLAG_HEX && num)
 		len += buffered_print("0", 1);

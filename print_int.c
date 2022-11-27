@@ -19,7 +19,7 @@ static void print_int_helper(specifier_t *spec, int n, int *len)
 
 	if (n < 0)
 	{
-		if (!spec->precision)
+		if (!spec->precision && spec->flags ^ FLAG_ZERO)
 			*len += buffered_print("-", 1);
 		if (n <= INT_MIN)
 			spill = 5;
@@ -49,7 +49,7 @@ static void print_short_int_helper(specifier_t *spec, short int n, int *len)
 
 	if (n < 0)
 	{
-		if (!spec->precision)
+		if (!spec->precision && spec->flags ^ FLAG_ZERO)
 			*len += buffered_print("-", 1);
 		if (n <= SHRT_MIN)
 			spill = 5;
@@ -79,7 +79,7 @@ static void print_long_int_helper(specifier_t *spec, long int n, int *len)
 
 	if (n < 0)
 	{
-		if (!spec->precision)
+		if (!spec->precision && spec->flags ^ FLAG_ZERO)
 			*len += buffered_print("-", 1);
 		if (n <= LONG_MIN)
 			spill = 5;
@@ -133,7 +133,8 @@ int print_int(specifier_t *spec, va_list arg)
 
 	get_variables(spec, arg, &num, &nums, &numl, &num_width);
 	len += handle_width(spec, num, nums, numl, num_width);
-	len += handle_sign(spec, num, nums, numl);
+	if (spec->flags ^ FLAG_ZERO)
+		len += handle_sign(spec, num, nums, numl);
 	len += handle_precision(spec, num_width);
 	if (spec->flags & FLAG_PRECISION && spec->precision == 0 &&
 		(num == 0 || nums == 0 || numl == 0))
