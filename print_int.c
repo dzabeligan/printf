@@ -141,7 +141,7 @@ int print_int(specifier_t *spec, va_list arg)
 	}
 	len += handle_width(spec, num, nums, numl, num_width);
 	if (spec->flags ^ FLAG_ZERO)
-		len += handle_sign(spec, num, nums, numl);
+		len += handle_sign(spec, num, nums, numl, num_width);
 	len += handle_precision(spec, num_width);
 	if (spec->flags & FLAG_PRECISION && spec->precision == 0 &&
 		(num == 0 || nums == 0 || numl == 0))

@@ -5,7 +5,7 @@
 #define num_len(n, num_width)                                                 \
 	do {                                                                       \
 		if ((n) < 0)                                                           \
-			(n) *= -1;                                                         \
+			(n) = -(n + 5);                                                    \
 		while ((n) / 10 > 0)                                                   \
 		{                                                                      \
 			(n) /= 10;                                                         \
@@ -19,7 +19,7 @@
  * @num: num int
  * @nums: num short
  * @numl: num long
- * @width: width long
+ * @width: width
  *
  *  Return: length of bytes written
  */
@@ -29,7 +29,7 @@ int handle_width(specifier_t *spec, int num, short int nums,
 	int len = 0;
 
 	if (spec->flags & FLAG_ZERO)
-		len += handle_sign(spec, num, nums, numl);
+		len += handle_sign(spec, num, nums, numl, width);
 	if (spec->width == 0 || width >= spec->width)
 		return (0);
 	return (len + print_nchar(spec->flags & FLAG_ZERO ? '0' : ' ',
@@ -40,7 +40,7 @@ int handle_width(specifier_t *spec, int num, short int nums,
 /**
  * handle_precision - handle precision
  * @spec: specifier object
- * @width: width long
+ * @width: width
  *
  *  Return: length of bytes written
  */
@@ -57,24 +57,37 @@ int handle_precision(specifier_t *spec, unsigned int width)
  * @num: num int
  * @nums: num short
  * @numl: num long
+ * @width: width
  *
  *  Return: length of bytes written
  */
-int handle_sign(
-	specifier_t *spec, int num, short int nums, long int numl)
+int handle_sign(specifier_t *spec, int num, short int nums, long int numl,
+	unsigned int width)
 {
 	int len = 0;
 
 	if (spec->flags & FLAG_SIGN && (num >= 0 || nums >= 0 || numl >= 0))
 		len += buffered_print("+", 1);
-	else if (spec->flags & FLAG_SPACE && (num >= 0 || nums >= 0 || numl >= 0))
+	else if (spec->flags & FLAG_SPACE && (width >= spec->width) &&
+		(num >= 0 || nums >= 0 || numl >= 0))
 		len += buffered_print(" ", 1);
-	else if ((spec->precision || spec->flags & FLAG_ZERO) && (num < 0 && nums < 0 && numl < 0))
+	else if ((spec->precision || spec->flags & FLAG_ZERO) &&
+		(num < 0 && nums < 0 && numl < 0))
 		len += buffered_print("-", 1);
 
 	return (len);
 }
 
+/**
+ * get_variables - Get the variables object
+ * @spec: specifier object
+ * @arg: pointer to arguments to be printed
+ * @num: num int
+ * @nums: num short
+ * @numl: num long
+ * @num_width: width
+ *
+ */
 void get_variables(specifier_t *spec, va_list arg, int *num, short int *nums,
 	long int *numl, unsigned int *num_width)
 {
