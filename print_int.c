@@ -108,7 +108,7 @@ static int handle_print(
 {
 	int len = 0;
 
-	if (spec->flags & FLAG_LENGTH)
+	if (spec->flags & FLAG_LONG)
 		print_long_int_helper(spec, numl, &len);
 	else if (spec->flags & FLAG_SHORT)
 		print_short_int_helper(spec, nums, &len);

@@ -93,7 +93,7 @@ int print_hex(specifier_t *spec, va_list arg)
 	if (spec->flags & FLAG_PRECISION && spec->precision == 0 && num == 0)
 		return (len);
 
-	if (spec->flags & FLAG_LENGTH)
+	if (spec->flags & FLAG_LONG)
 		print_long_hex_helper(num, &len);
 	else if (spec->flags & FLAG_SHORT)
 		print_short_hex_helper(num, &len);

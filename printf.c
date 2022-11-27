@@ -74,7 +74,7 @@ int _printf(const char *format, ...)
 
 			memset(&spec, 0, sizeof(spec));
 			skip = get_specifier(&spec, format + 1, args);
-			format += skip + 1;
+			format += skip;
 			if (spec.specifier == '\0')
 				break;
 			len += print_all(&spec, args);

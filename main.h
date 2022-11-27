@@ -10,7 +10,7 @@
  * @FLAG_HEX: hex
  * @FLAG_LEFT: left
  * @FLAG_ZERO: zero
- * @FLAG_LENGTH: length
+ * @FLAG_LONG: length
  * @FLAG_SHORT: short
  * @FLAG_PRECISION: precision
  *
@@ -22,7 +22,7 @@ typedef enum flag_t
 	FLAG_HEX = 1 << 2,
 	FLAG_LEFT = 1 << 3,
 	FLAG_ZERO = 1 << 4,
-	FLAG_LENGTH = 1 << 5,
+	FLAG_LONG = 1 << 5,
 	FLAG_SHORT = 1 << 6,
 	FLAG_PRECISION = 1 << 7
 } flag_t;

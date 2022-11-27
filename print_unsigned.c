@@ -94,7 +94,7 @@ int print_unsigned(specifier_t *spec, va_list arg)
 			return (len);
 	}
 
-	if (spec->flags & FLAG_LENGTH)
+	if (spec->flags & FLAG_LONG)
 		print_long_unsigned_helper(num, &len);
 	else if (spec->flags & FLAG_SHORT)
 		print_short_unsigned_helper(num, &len);

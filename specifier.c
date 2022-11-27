@@ -46,17 +46,14 @@ static int get_width(specifier_t *spec, const char *format, va_list args)
 	if (*format == '*')
 	{
 		spec->width = va_arg(args, int);
-		len++;
+		return (++len);
 	}
-	else
+	while (*format >= '0' && *format <= '9')
 	{
-		while (*format >= '0' && *format <= '9')
-		{
-			spec->width *= 10;
-			spec->width += *format - '0';
-			len++;
-			format++;
-		}
+		spec->width *= 10;
+		spec->width += *format - '0';
+		len++;
+		format++;
 	}
 	return (len);
 }
@@ -77,17 +74,14 @@ static int get_precision(specifier_t *spec, const char *format, va_list args)
 	if (*format == '*')
 	{
 		spec->precision = va_arg(args, int);
-		len++;
+		return (++len);
 	}
-	else
+	while (*format >= '0' && *format <= '9')
 	{
-		while (*format >= '0' && *format <= '9')
-		{
-			spec->precision *= 10;
-			spec->precision += *format - '0';
-			len++;
-			format++;
-		}
+		spec->precision *= 10;
+		spec->precision += *format - '0';
+		len++;
+		format++;
 	}
 	return (len);
 }
@@ -113,7 +107,7 @@ static int get_length(specifier_t *spec, const char *format)
 	{
 		len++;
 		format++;
-		spec->flags |= FLAG_LENGTH;
+		spec->flags |= FLAG_LONG;
 	}
 	return (len);
 }
@@ -133,12 +127,12 @@ int get_specifier(specifier_t *spec, const char *format, va_list args)
 	len += get_flag(spec, format + len);
 	len += get_width(spec, format + len, args);
 
-	if (*format == '.')
+	if (*(format + len) == '.')
 	{
 		len++;
 		len += get_precision(spec, format + len, args);
 	}
 	len += get_length(spec, format + len);
 	spec->specifier = *(format + len);
-	return (len);
+	return (++len);
 }
