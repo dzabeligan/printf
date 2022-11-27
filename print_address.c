@@ -48,7 +48,7 @@ int print_address(specifier_t *spec, va_list arg)
 
 	if (str == NULL)
 		return (buffered_print("(nil)", 5));
-	if (spec->flags ^ FLAG_LEFT && width < spec->width)
+	if (!(spec->flags & FLAG_LEFT) && width < spec->width)
 		len += print_space(spec->width - (unsigned int)width);
 	buffered_print("0x", 2);
 	print_address_helper((unsigned long)str, &len);

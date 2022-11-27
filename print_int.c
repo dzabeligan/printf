@@ -19,8 +19,6 @@ static void print_int_helper(specifier_t *spec, int n, int *len)
 
 	if (n < 0)
 	{
-		if (!spec->precision && spec->flags ^ FLAG_ZERO)
-			*len += buffered_print("-", 1);
 		if (n <= INT_MIN)
 			spill = 5;
 		n = -(n + spill);
@@ -49,8 +47,6 @@ static void print_short_int_helper(specifier_t *spec, short int n, int *len)
 
 	if (n < 0)
 	{
-		if (!spec->precision && spec->flags ^ FLAG_ZERO)
-			*len += buffered_print("-", 1);
 		if (n <= SHRT_MIN)
 			spill = 5;
 		n = -(n + spill);
@@ -79,8 +75,6 @@ static void print_long_int_helper(specifier_t *spec, long int n, int *len)
 
 	if (n < 0)
 	{
-		if (!spec->precision && spec->flags ^ FLAG_ZERO)
-			*len += buffered_print("-", 1);
 		if (n <= LONG_MIN)
 			spill = 5;
 		n = -(n + spill);
@@ -103,7 +97,7 @@ static void print_long_int_helper(specifier_t *spec, long int n, int *len)
  *
  *  Return: length of bytes written
  */
-static int handle_print(
+int handle_print(
 	specifier_t *spec, int num, short int nums, long int numl)
 {
 	int len = 0;
@@ -134,18 +128,12 @@ int print_int(specifier_t *spec, va_list arg)
 	get_variables(spec, arg, &num, &nums, &numl, &num_width);
 	if (spec->flags & FLAG_LEFT)
 	{
-		spec->flags = 0;
-		len += handle_print(spec, num, nums, numl);
-		len += handle_width(spec, num, nums, numl, num_width);
-		return (len);
+		return (handle_left_align(spec, num, nums, numl, num_width));
 	}
 	len += handle_width(spec, num, nums, numl, num_width);
-	if (spec->flags ^ FLAG_ZERO)
-		len += handle_sign(spec, num, nums, numl, num_width);
+	len += handle_sign(spec, num, nums, numl, num_width);
 	len += handle_precision(spec, num_width);
-	if (spec->flags & FLAG_PRECISION && spec->precision == 0 &&
-		(num == 0 || nums == 0 || numl == 0))
-		return (len);
-	len += handle_print(spec, num, nums, numl);
+	if ((spec->flags & FLAG_PRECISION && spec->precision != 0) || !(spec->flags & FLAG_PRECISION))
+		len += handle_print(spec, num, nums, numl);
 	return (len);
 }

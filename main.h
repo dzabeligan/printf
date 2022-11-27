@@ -6,8 +6,8 @@
 /**
  * enum flag_t - flag types
  * @FLAG_SIGN: sign
- * @FLAG_SPACE: space
- * @FLAG_HEX: hex
+ * @FLAG_BLANK: space
+ * @FLAG_ALT: hex
  * @FLAG_LEFT: left
  * @FLAG_ZERO: zero
  * @FLAG_LONG: length
@@ -18,8 +18,8 @@
 typedef enum flag_t
 {
 	FLAG_SIGN = 1,
-	FLAG_SPACE = 1 << 1,
-	FLAG_HEX = 1 << 2,
+	FLAG_BLANK = 1 << 1,
+	FLAG_ALT = 1 << 2,
 	FLAG_LEFT = 1 << 3,
 	FLAG_ZERO = 1 << 4,
 	FLAG_LONG = 1 << 5,

@@ -26,13 +26,9 @@
 int handle_width(specifier_t *spec, int num, short int nums,
 	long int numl, unsigned int width)
 {
-	int len = 0;
-
-	if (spec->flags & FLAG_ZERO)
-		len += handle_sign(spec, num, nums, numl, width);
 	if (spec->width == 0 || width >= spec->width)
 		return (0);
-	return (len + print_nchar(spec->flags & FLAG_ZERO ? '0' : ' ',
+	return (print_nchar(spec->flags & FLAG_ZERO ? '0' : ' ',
 		(num < 0 && nums < 0 && numl < 0) || spec->flags & FLAG_SIGN
 			? spec->width - width - 1 : spec->width - width));
 }
@@ -64,17 +60,44 @@ int handle_precision(specifier_t *spec, unsigned int width)
 int handle_sign(specifier_t *spec, int num, short int nums, long int numl,
 	unsigned int width)
 {
+	if (num < 0 && nums < 0 && numl < 0)
+		return (print_nchar('-', 1));
+	if (spec->flags & FLAG_SIGN && (num >= 0 || nums >= 0 || numl >= 0))
+		return (print_nchar('+', 1));
+	if (spec->flags & FLAG_BLANK && spec->width < width)
+		return (print_space(1));
+	return (0);
+}
+
+/**
+ * handle_left_align - handle left align
+ * @spec: specifier object
+ * @num: num int
+ * @nums: num short
+ * @numl: num long
+ * @width: width
+ *
+ *  Return: length of bytes written
+ */
+int handle_left_align(specifier_t *spec, int num, short int nums, long int numl,
+	unsigned int width)
+{
 	int len = 0;
 
-	if (spec->flags & FLAG_SIGN && (num >= 0 || nums >= 0 || numl >= 0))
-		len += buffered_print("+", 1);
-	else if (spec->flags & FLAG_SPACE && (width >= spec->width) &&
+	if (spec->flags & FLAG_BLANK && spec->width > width && (num >= 0 || nums >= 0 || numl >= 0))
+			len += print_space(1);
+	len += handle_sign(spec, num, nums, numl, width);
+	if (spec->flags & FLAG_PRECISION)
+	{
+		spec->width = 0;
+		len += handle_precision(spec, width);
+	}
+	if ((spec->flags & FLAG_SIGN || spec->flags & FLAG_BLANK) &&
 		(num >= 0 || nums >= 0 || numl >= 0))
-		len += buffered_print(" ", 1);
-	else if ((spec->precision || spec->flags & FLAG_ZERO) &&
-		(num < 0 && nums < 0 && numl < 0))
-		len += buffered_print("-", 1);
-
+		width++;
+	len += handle_print(spec, num, nums, numl);
+	spec->flags = 0;
+	len += handle_width(spec, num, nums, numl, width);
 	return (len);
 }
 

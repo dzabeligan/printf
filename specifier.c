@@ -19,9 +19,9 @@ static int get_flag(specifier_t *spec, const char *format)
 		else if (*format == '+')
 			spec->flags |= FLAG_SIGN;
 		else if (*format == ' ')
-			spec->flags |= FLAG_SPACE;
+			spec->flags |= FLAG_BLANK;
 		else if (*format == '#')
-			spec->flags |= FLAG_HEX;
+			spec->flags |= FLAG_ALT;
 		else
 			spec->flags |= FLAG_ZERO;
 		len++;

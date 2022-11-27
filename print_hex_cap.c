@@ -81,11 +81,11 @@ int print_hex_cap(specifier_t *spec, va_list arg)
 	unsigned long int num = va_arg(arg, unsigned long int);
 	unsigned int width = num_len(num, updater);
 
-	if (spec->flags ^ FLAG_LEFT && width < spec->width)
+	if (!(spec->flags & FLAG_LEFT) && width < spec->width)
 		len += print_nchar(spec->flags & FLAG_ZERO ? '0' : ' ',
 			spec->width - width);
 
-	if (spec->flags & FLAG_HEX && num)
+	if (spec->flags & FLAG_ALT && num)
 		len += buffered_print("0X", 2);
 
 	if (width < spec->precision)

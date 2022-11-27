@@ -20,7 +20,7 @@ int print_string(specifier_t *spec, va_list arg)
 
 	width = strlen(str);
 
-	if (spec->flags ^ FLAG_LEFT && width < spec->width)
+	if (!(spec->flags & FLAG_LEFT) && width < spec->width)
 		len += print_space(spec->width - (unsigned int)width);
 	if (spec->flags & FLAG_PRECISION && spec->precision < width)
 		width = spec->precision;

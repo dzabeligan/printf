@@ -83,7 +83,7 @@ int print_unsigned(specifier_t *spec, va_list arg)
 	unsigned long int num = va_arg(arg, unsigned long int);
 	unsigned int width = num_len(num, updater);
 
-	if (spec->flags ^ FLAG_LEFT)
+	if (!(spec->flags & FLAG_LEFT))
 	{
 		if (width < spec->width)
 			len += print_nchar(spec->flags & FLAG_ZERO ? '0' : ' ',
