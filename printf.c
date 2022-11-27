@@ -1,3 +1,4 @@
+#include <limits.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -85,7 +86,7 @@ int _printf(const char *format, ...)
 			break;
 		len += buffered_print(format++, 1);
 	}
-	len += buffered_print(NULL, -1);
+	len += buffered_print(NULL, UINT_MAX);
 
 	va_end(args);
 

@@ -26,11 +26,18 @@
 int handle_width(specifier_t *spec, int num, short int nums,
 	long int numl, unsigned int width)
 {
-	if (spec->width == 0 || width >= spec->width)
+	if (spec->width == 0 || width >= (spec->width))
 		return (0);
-	return (print_nchar(spec->flags & FLAG_ZERO ? '0' : ' ',
-		(num < 0 && nums < 0 && numl < 0) || spec->flags & FLAG_SIGN
-			? spec->width - width - 1 : spec->width - width));
+	width = spec->width - width;
+	if (spec->precision >= width)
+		width = 0;
+	if (((num < 0 && nums < 0 && numl < 0) || spec->flags & FLAG_SIGN)
+		&& width != 0)
+		width--;
+	if (spec->flags & FLAG_PRECISION && (num == 0 || nums == 0 || numl == 0)
+		&& spec->precision == 0)
+		width = spec->width;
+	return (print_nchar(spec->flags & FLAG_ZERO ? '0' : ' ', width));
 }
 
 /**
@@ -89,7 +96,8 @@ int handle_left_align(specifier_t *spec, int num, short int nums, long int numl,
 	len += handle_sign(spec, num, nums, numl, width);
 	if (spec->flags & FLAG_PRECISION)
 	{
-		spec->width = 0;
+		if (spec->precision)
+			spec->width = 0;
 		len += handle_precision(spec, width);
 	}
 	if ((spec->flags & FLAG_SIGN || spec->flags & FLAG_BLANK) &&

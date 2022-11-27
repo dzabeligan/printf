@@ -127,13 +127,12 @@ int print_int(specifier_t *spec, va_list arg)
 
 	get_variables(spec, arg, &num, &nums, &numl, &num_width);
 	if (spec->flags & FLAG_LEFT)
-	{
 		return (handle_left_align(spec, num, nums, numl, num_width));
-	}
 	len += handle_width(spec, num, nums, numl, num_width);
 	len += handle_sign(spec, num, nums, numl, num_width);
 	len += handle_precision(spec, num_width);
-	if ((spec->flags & FLAG_PRECISION && spec->precision != 0) || !(spec->flags & FLAG_PRECISION))
+	if ((num != 0 && nums != 0 && numl != 0) || (spec->flags & FLAG_PRECISION
+		&& spec->precision != 0) || !(spec->flags & FLAG_PRECISION))
 		len += handle_print(spec, num, nums, numl);
 	return (len);
 }

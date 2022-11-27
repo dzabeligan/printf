@@ -1,3 +1,4 @@
+#include <limits.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -11,18 +12,19 @@
  *
  * Return: number of printed
  */
-int buffered_print(const char *str, int sLen)
+int buffered_print(const char *str, unsigned int sLen)
 {
 	static int len;
 	static char buffer[1024] = {'\0'};
 	int writen = 0;
 	int i = 0;
 
-	if (sLen == -1)
+	if (str  == NULL && sLen == UINT_MAX)
 	{
 		writen = (write(1, buffer, len));
 		len = 0;
 		memset(buffer, 0, sizeof(buffer));
+		return (writen);
 	}
 	while (str && (str + i) && sLen--)
 	{
@@ -49,6 +51,8 @@ int print_nchar(char c, unsigned int len)
 {
 	int plen = 0;
 
+	if (len == 0)
+		return (plen);
 	while (len--)
 		plen += buffered_print(&c, 1);
 	return (plen);

@@ -3,7 +3,7 @@
 
 #include "main.h"
 
-int buffered_print(const char *buffer, int sLen);
+int buffered_print(const char *buffer, unsigned int sLen);
 int print_nchar(char c, unsigned int len);
 int print_space(unsigned int len);
 unsigned int num_len(
